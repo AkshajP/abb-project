@@ -1,3 +1,4 @@
+import { login, signup } from "@/actions/supabase/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,14 +19,25 @@ export default function SignupForm() {
           <CardHeader>
             <CardTitle className="text-2xl">Sign Up</CardTitle>
             <CardDescription>
-              Enter your email below to signup to bidzone.
+              Enter your details below to signup to bidzone.
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
             <div className="grid gap-2">
+              <Label htmlFor="name">Full Name</Label>
+              <Input
+                id="name"
+                name="name"
+                type="name"
+                placeholder="Akshaj P"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="m@example.com"
                 required
@@ -33,11 +45,19 @@ export default function SignupForm() {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required />
+              <Input
+                id="password"
+                name="password"
+                placeholder="******"
+                type="password"
+                required
+              />
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full">Sign in</Button>
+            <Button className="w-full" formAction={signup}>
+              Sign up
+            </Button>
           </CardFooter>
         </Card>
       </form>

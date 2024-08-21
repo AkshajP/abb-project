@@ -1,3 +1,4 @@
+import { login } from "@/actions/supabase/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,10 +38,9 @@ export default function LoginForm() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full">Sign in</Button>
-            <Link>
-              Dont have an account? <span>sign up</span>
-            </Link>
+            <Button className="w-full" formAction={login}>
+              Sign in
+            </Button>
           </CardFooter>
         </Card>
       </form>
