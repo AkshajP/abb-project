@@ -89,6 +89,7 @@ export default async function Dashboard() {
                   <TableHead>Title</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Starting Bid</TableHead>
+                  <TableHead>Current Bid</TableHead>
                   <TableHead>End Date</TableHead>
                 </TableRow>
               </TableHeader>
@@ -101,6 +102,9 @@ export default async function Dashboard() {
                     <TableCell className="font-medium">{item.title}</TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell>{item.starting_bid}</TableCell>
+                    <TableCell>
+                      {item.current_bid ? item.current_bid : item.starting_bid}
+                    </TableCell>
                     <TableCell>{item.end_date}</TableCell>
                   </TableRow>
                 ))}

@@ -89,6 +89,7 @@ export async function addNewProduct(props: {
     description: props.description,
     starting_bid: props.price,
     end_date: props.date,
+    current_bid: props.price,
   });
 
   console.log(error);
@@ -103,7 +104,13 @@ export async function getAllProducts() {
   const supabase = createClient();
   const user = await getUser();
 
-  const { data, error } = await supabase.from("auctions").select("*");
+  // filter out the auctions that are not owned by the user
+
+  const { data, error } = await supabase
+    .from("auctions")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .neq("user_id", user.id);
 
   console.log(error);
 

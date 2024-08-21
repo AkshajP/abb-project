@@ -50,6 +50,7 @@ export default async function Dashboard() {
                   <TableHead>Title</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Starting Bid</TableHead>
+                  <TableHead>Current Bid</TableHead>
                   <TableHead>End Date</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
@@ -63,7 +64,9 @@ export default async function Dashboard() {
                     <TableCell className="font-medium">{item.title}</TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell>{item.starting_bid}</TableCell>
+                    <TableCell>{item.starting_bid}</TableCell>
                     <TableCell>{item.end_date}</TableCell>
+
                     <TableCell>
                       <Button>Bid</Button>
                     </TableCell>
