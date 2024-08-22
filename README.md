@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Features implemented
 
-## Getting Started
+- [x] User Registration using email, name and password and Authentication using email and password
+- [x] Display of all auction items (except the ones user posted themselves)
+- [x] Display of users auction items
+- [x] List auction item
+- [x] Clean code
+- [x] Good commit messages following commit conventions
+- [x] API endpoint at [/api/products]('/api/products')
+- [x] password is hashed
 
-First, run the development server:
+### Deployment
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+@ [https://abb-project.vercel.app/](https://abb-project.vercel.app/)
+
+### Schema
+
+![DB Schema](statics/schema-visualiser.png)
+Supabase creates an automatic users table under auth schema
+
+### Setup on your system
+
+Dependency: pnpm
+
+```sh
+npm install -g pnpm
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+git clone https://github.com/AkshajP/abb-project.git
+cd abb-project/
+pnpm i
+pnpm dev
+```
