@@ -89,6 +89,7 @@ export async function addNewProduct(props: {
     description: props.description,
     starting_bid: props.price,
     end_date: props.date,
+    user_name: user.user_metadata.first_name,
   });
 
   console.log(error);
@@ -138,6 +139,23 @@ export async function deleteProduct(props: { id: string }) {
   };
 }
 
+export async function getProduct(props: { id: string }) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("auctions")
+    .select("*")
+    .eq("id", props.id)
+    .single();
+
+  console.log(error);
+
+  return {
+    data,
+    error,
+  };
+}
+
 export async function getAllProducts() {
   const supabase = createClient();
   const user = await getUser();
@@ -172,6 +190,46 @@ export async function getUserPorducts() {
   console.log(error);
 
   revalidatePath("/items");
+
+  return {
+    data,
+    error,
+  };
+}
+
+export async function createBid(props: { id: string; bidAmount: number }) {
+  const supabase = createClient();
+  const user = await getUser();
+
+  const { data, error } = await supabase.from("bids").insert({
+    auction_id: props.id,
+    user_id: user.id,
+    bid_amount: props.bidAmount,
+    user_name: user.user_metadata.first_name,
+  });
+
+  const { data: update_data, error: update_error } = await supabase
+    .from("auctions")
+    .update({
+      current_bid: props.bidAmount,
+    })
+    .eq("id", props.id);
+
+  return {
+    data,
+    error,
+  };
+}
+
+export async function getBids(props: { id: string }) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("bids")
+    .select("*")
+    .eq("auction_id", props.id);
+
+  console.log(error);
 
   return {
     data,

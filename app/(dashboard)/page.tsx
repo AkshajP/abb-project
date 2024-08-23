@@ -43,15 +43,13 @@ export default async function Dashboard() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  {/* <TableHead className="hidden w-[100px] sm:table-cell">
-                    <span className="sr-only">Image</span>
-                  </TableHead> */}
                   <TableHead>Item</TableHead>
                   <TableHead>Title</TableHead>
                   <TableHead>Description</TableHead>
-                  <TableHead>Starting Bid</TableHead>
+                  <TableHead>Starting Price</TableHead>
                   <TableHead>Current Bid</TableHead>
                   <TableHead>End Date</TableHead>
+                  <TableHead>Listed by</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -63,14 +61,32 @@ export default async function Dashboard() {
                     </TableCell>
                     <TableCell className="font-medium">{item.title}</TableCell>
                     <TableCell>{item.description}</TableCell>
-                    <TableCell>{item.starting_bid}</TableCell>
+                    <TableCell>₹{item.starting_bid}</TableCell>
                     <TableCell>
-                      {item.current_bid ? item.current_bid : item.starting_bid}
+                      {item.current_bid ? (
+                        item.current_bid
+                      ) : (
+                        <span className="text-muted-foreground">
+                          No bids yet
+                        </span>
+                      )}
                     </TableCell>
-                    <TableCell>{item.end_date}</TableCell>
+                    <TableCell>
+                      {new Date(item.end_date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </TableCell>
+
+                    <TableCell>{item.user_name}</TableCell>
 
                     <TableCell>
-                      <Button>Bid</Button>
+                      <Link href={`/bid/${item.id}`}>
+                        <Button>Bid</Button>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
