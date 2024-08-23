@@ -26,7 +26,7 @@ export default function CreateBid(props: {
   bids: any[] | null;
 }) {
   const [loading, setLoading] = React.useState(false);
-  const [bidAmount, setBidAmount] = React.useState("");
+  const [bidAmount, setBidAmount] = React.useState<number | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,8 +64,8 @@ export default function CreateBid(props: {
               </div>
               <Input
                 id="bidAmount"
-                value={bidAmount}
-                onChange={(e) => setBidAmount(e.target.value)}
+                value={bidAmount === null ? "" : bidAmount}
+                onChange={(e) => setBidAmount(Number(e.target.value))}
                 type="number"
                 placeholder="Enter your bid"
                 min={Math.max(props.item.current_bid, props.item.starting_bid)}
@@ -73,7 +73,15 @@ export default function CreateBid(props: {
               />
             </div>
           </div>
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            disabled={
+              bidAmount === null ||
+              bidAmount <
+                Math.max(props.item.current_bid, props.item.starting_bid)
+            }
+            className="w-full"
+          >
             {loading ? (
               <div className="flex flex-row items-center gap-2">
                 {" "}
