@@ -20,10 +20,8 @@ User stories:
 
 ### Schema
 
-![DB Schema](statics/schema-visualiser.png)
+![DB Schema](public/schema.png)
 Supabase creates an automatic users table under auth schema
-
-[feat] auctions.end_date type changed from text to timestampz
 
 ### Setup on your system
 
