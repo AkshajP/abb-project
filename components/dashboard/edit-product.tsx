@@ -1,5 +1,5 @@
 "use client";
-import { PlusCircle, PlusIcon } from "lucide-react";
+import { Loader, Pencil, PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -21,18 +21,28 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Textarea } from "../ui/textarea";
-import { addNewProduct } from "@/actions/supabase";
+import { addNewProduct, updateProduct } from "@/actions/supabase";
 import { title } from "process";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Loader } from "lucide-react";
-export default function NewProduct() {
-  const [loading, setLoading] = React.useState(false);
+
+export default function EditProduct(props: {
+  item: {
+    id: string;
+    title: string;
+    description: string;
+    starting_bid: string;
+    end_date: string;
+  };
+}) {
   const [open, setOpen] = React.useState(false);
-  const [date, setDate] = React.useState<Date | undefined>(undefined);
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [price, setPrice] = React.useState("");
+  const [date, setDate] = React.useState<Date | undefined>(
+    new Date(props.item.end_date)
+  );
+  const [loading, setLoading] = React.useState(false);
+  const [name, setName] = React.useState(props.item.title);
+  const [description, setDescription] = React.useState(props.item.description);
+  const [price, setPrice] = React.useState(props.item.starting_bid);
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -45,36 +55,31 @@ export default function NewProduct() {
       return;
     }
 
-    const { data, error } = await addNewProduct({
-      name,
+    const { data, error } = await updateProduct({
+      id: props.item.id,
       description,
-      price,
       date,
     });
 
     if (error) {
-      console.log("Error:", error.message);
-      setLoading(false);
+      toast.error(`Error updating item: ${error.message}`);
       return;
     }
-    toast.success("Item listed successfully");
     setOpen(false);
     setLoading(false);
+    toast.success("Item updated successfully");
     router.refresh();
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="h-8 gap-1">
-          <PlusIcon className="h-3.5 w-3.5" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            List new item
-          </span>
+        <Button size="icon" variant={"outline"}>
+          <Pencil className="h-3.5 w-3.5" />
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle className="mb-2">List new product</DialogTitle>
+        <DialogTitle className="mb-2">Edit product</DialogTitle>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
             <div className="grid gap-2">
@@ -82,6 +87,7 @@ export default function NewProduct() {
               <Input
                 id="name"
                 type="text"
+                disabled
                 name="name"
                 placeholder="Enter Item Name"
                 value={name}
@@ -106,7 +112,8 @@ export default function NewProduct() {
                 <div className="px-4 border-r">₹</div>
                 <Input
                   id="price"
-                  type="number"
+                  disabled
+                  type="text"
                   className="border-none focus:border-none focus:ring-0 focus:outline-none active:ring-0 active:outline-none"
                   name="price"
                   placeholder="Enter Item Price"
@@ -138,7 +145,7 @@ export default function NewProduct() {
                     selected={date}
                     onSelect={setDate}
                     initialFocus
-                    disabled={(date) => date <= new Date()}
+                    disabled={(date) => date <= new Date(props.item.end_date)}
                   />
                 </PopoverContent>
               </Popover>
@@ -162,11 +169,10 @@ export default function NewProduct() {
             >
               {loading ? (
                 <div className="flex flex-row items-center gap-2">
-                  {" "}
-                  <Loader className="animate-spin size-4" /> Saving...
+                  <Loader className="animate-spin size-4" /> Updating...
                 </div>
               ) : (
-                "Save"
+                "Update"
               )}
             </Button>
           </DialogFooter>

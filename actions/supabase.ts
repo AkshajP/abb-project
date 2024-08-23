@@ -89,8 +89,46 @@ export async function addNewProduct(props: {
     description: props.description,
     starting_bid: props.price,
     end_date: props.date,
-    current_bid: props.price,
   });
+
+  console.log(error);
+
+  return {
+    data,
+    error,
+  };
+}
+
+export async function updateProduct(props: {
+  id: string;
+  description: string;
+  date: any;
+}) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("auctions")
+    .update({
+      description: props.description,
+      end_date: props.date,
+    })
+    .eq("id", props.id);
+
+  console.log(error);
+
+  return {
+    data,
+    error,
+  };
+}
+
+export async function deleteProduct(props: { id: string }) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("auctions")
+    .delete()
+    .eq("id", props.id);
 
   console.log(error);
 

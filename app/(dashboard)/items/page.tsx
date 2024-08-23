@@ -10,10 +10,12 @@ import {
   Package,
   Package2,
   PanelLeft,
+  Pencil,
   PlusCircle,
   Search,
   Settings,
   ShoppingCart,
+  Trash,
   Users2,
 } from "lucide-react";
 
@@ -56,6 +58,8 @@ import {
 } from "@/components/ui/table";
 import NewProduct from "@/components/dashboard/new-product";
 import { getAllProducts, getUserPorducts } from "@/actions/supabase";
+import EditProduct from "@/components/dashboard/edit-product";
+import DeleteProduct from "@/components/dashboard/delete-product";
 
 export default async function Dashboard() {
   const { data, error } = await getUserPorducts();
@@ -64,15 +68,16 @@ export default async function Dashboard() {
     console.log("Error:", error.message);
     return;
   }
+
   return (
     <div className="flex flex-col sm:gap-4 sm:py-4 ">
       <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
         <Card x-chunk="dashboard-06-chunk-0">
           <CardHeader className="flex items-center flex-row justify-between">
-            <div>
-              <CardTitle>Your Products</CardTitle>
+            <div className="flex flex-col gap-1">
+              <CardTitle>Your listed auction items</CardTitle>
               <CardDescription>
-                Manage your products and view their bids.
+                Manage your items and view their bids.
               </CardDescription>
             </div>
 
@@ -82,15 +87,13 @@ export default async function Dashboard() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  {/* <TableHead className="hidden w-[100px] sm:table-cell">
-                    <span className="sr-only">Image</span>
-                  </TableHead> */}
                   <TableHead>Item</TableHead>
                   <TableHead>Title</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Starting Bid</TableHead>
-                  <TableHead>Current Bid</TableHead>
+                  <TableHead>Highest Bid</TableHead>
                   <TableHead>End Date</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -101,17 +104,34 @@ export default async function Dashboard() {
                     </TableCell>
                     <TableCell className="font-medium">{item.title}</TableCell>
                     <TableCell>{item.description}</TableCell>
-                    <TableCell>{item.starting_bid}</TableCell>
+                    <TableCell>₹{item.starting_bid}</TableCell>
                     <TableCell>
-                      {item.current_bid ? item.current_bid : item.starting_bid}
+                      {item.current_bid ? (
+                        "₹" + item.current_bid
+                      ) : (
+                        <span className="text-muted-foreground">
+                          No bids yet
+                        </span>
+                      )}
                     </TableCell>
-                    <TableCell>{item.end_date}</TableCell>
+                    <TableCell>
+                      {new Date(item.end_date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </TableCell>
+                    <TableCell className="flex flex-row gap-2">
+                      <EditProduct item={item} />
+                      <DeleteProduct item={item} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </CardContent>
-          {/* <CardFooter></CardFooter> */}
         </Card>
       </main>
     </div>
