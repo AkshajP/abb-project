@@ -1,13 +1,18 @@
 ### Features implemented
 
 - [x] User Registration using email, name and password and Authentication using email and password
-- [x] Display of all auction items (except the ones user posted themselves)
-- [x] Display of users auction items
-- [x] List auction item
-- [x] Clean code
+- [x] Access protected dashboard and pages
+- [x] Display of all available auction items (except the ones user posted themselves)
+- [x] Display of user listed auction items
 - [x] Good commit messages following commit conventions
 - [x] API endpoint at [/api/products]('/api/products')
-- [x] password is hashed
+- [x] password is hashed using bcrypt
+
+User stories:
+
+- [x] user can post their own auction items
+- [x] users can edit their auction item descriptions and ending date
+- [x] users can delete their auction items
 
 ### Deployment
 
@@ -17,6 +22,8 @@
 
 ![DB Schema](statics/schema-visualiser.png)
 Supabase creates an automatic users table under auth schema
+
+[feat] auctions.end_date type changed from text to timestampz
 
 ### Setup on your system
 
