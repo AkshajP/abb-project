@@ -10,10 +10,12 @@ import {
   Package,
   Package2,
   PanelLeft,
+  Pencil,
   PlusCircle,
   Search,
   Settings,
   ShoppingCart,
+  Trash,
   Users2,
 } from "lucide-react";
 
@@ -56,6 +58,7 @@ import {
 } from "@/components/ui/table";
 import NewProduct from "@/components/dashboard/new-product";
 import { getAllProducts, getUserPorducts } from "@/actions/supabase";
+import EditProduct from "@/components/dashboard/edit-product";
 
 export default async function Dashboard() {
   const { data, error } = await getUserPorducts();
@@ -64,13 +67,14 @@ export default async function Dashboard() {
     console.log("Error:", error.message);
     return;
   }
+
   return (
     <div className="flex flex-col sm:gap-4 sm:py-4 ">
       <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
         <Card x-chunk="dashboard-06-chunk-0">
           <CardHeader className="flex items-center flex-row justify-between">
             <div>
-              <CardTitle>Your Products</CardTitle>
+              <CardTitle>Your Listed Auction Items</CardTitle>
               <CardDescription>
                 Manage your products and view their bids.
               </CardDescription>
@@ -85,20 +89,18 @@ export default async function Dashboard() {
                   {/* <TableHead className="hidden w-[100px] sm:table-cell">
                     <span className="sr-only">Image</span>
                   </TableHead> */}
-                  <TableHead>Item</TableHead>
+
                   <TableHead>Title</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Starting Bid</TableHead>
-                  <TableHead>Current Bid</TableHead>
+                  <TableHead>Highest Bid</TableHead>
                   <TableHead>End Date</TableHead>
+                  <TableHead>Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {data?.map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell className="hidden sm:table-cell">
-                      <Box />
-                    </TableCell>
                     <TableCell className="font-medium">{item.title}</TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell>{item.starting_bid}</TableCell>
@@ -106,6 +108,16 @@ export default async function Dashboard() {
                       {item.current_bid ? item.current_bid : item.starting_bid}
                     </TableCell>
                     <TableCell>{item.end_date}</TableCell>
+                    <TableCell className="flex items-center gap-10">
+                      <EditProduct item={item} />
+                      <Button
+                        size="sm"
+                        color="grey"
+                        className="bg-red-300 hover:bg-red-400"
+                      >
+                        <Trash color="red" />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
