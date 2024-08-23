@@ -46,13 +46,15 @@ export default async function Bid(props: { params: { itemId: string } }) {
               <div className="flex justify-between items-end pt-4">
                 <div>
                   <p className="font-semibold">Starting Bid</p>
-                  <p className="text-xl font-bold">₹{item.starting_bid}</p>
+                  <p className="text-xl font-bold">
+                    ₹{item.starting_bid.toLocaleString("en-IN")}
+                  </p>
                 </div>
                 <div>
                   <p className="font-semibold">Current Bid</p>
                   {item.current_bid ? (
                     <p className="text-xl font-bold text-green-600">
-                      ₹{item.current_bid}
+                      ₹{item.current_bid.toLocaleString("en-IN")}
                     </p>
                   ) : (
                     <p className="text-xl font-bold text-red-600">
@@ -82,7 +84,9 @@ export default async function Bid(props: { params: { itemId: string } }) {
                 {bids?.map((bid) => (
                   <TableRow key={bid.id}>
                     <TableCell>{bid.user_name}</TableCell>
-                    <TableCell>${bid.bid_amount}</TableCell>
+                    <TableCell>
+                      ₹{bid.bid_amount.toLocaleString("en-IN")}
+                    </TableCell>
                     <TableCell>
                       {new Date(
                         new Date(bid.created_at).getTime() +

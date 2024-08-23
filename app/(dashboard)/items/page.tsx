@@ -104,10 +104,12 @@ export default async function Dashboard() {
                     </TableCell>
                     <TableCell className="font-medium">{item.title}</TableCell>
                     <TableCell>{item.description}</TableCell>
-                    <TableCell>₹{item.starting_bid}</TableCell>
+                    <TableCell>
+                      ₹{item.starting_bid.toLocaleString("en-IN")}
+                    </TableCell>
                     <TableCell>
                       {item.current_bid ? (
-                        "₹" + item.current_bid
+                        "₹" + item.current_bid.toLocaleString("en-IN")
                       ) : (
                         <span className="text-muted-foreground">
                           No bids yet

@@ -227,7 +227,8 @@ export async function getBids(props: { id: string }) {
   const { data, error } = await supabase
     .from("bids")
     .select("*")
-    .eq("auction_id", props.id);
+    .eq("auction_id", props.id)
+    .order("created_at", { ascending: false });
 
   console.log(error);
 

@@ -35,8 +35,8 @@ export default async function Dashboard() {
         <Card x-chunk="dashboard-06-chunk-0">
           <CardHeader className="flex items-center flex-row justify-between">
             <div>
-              <CardTitle>All Products</CardTitle>
-              <CardDescription>View all user&apos;s bids</CardDescription>
+              <CardTitle>All Listed Auctions</CardTitle>
+              <CardDescription>View all user&apos;s auctions</CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -61,10 +61,12 @@ export default async function Dashboard() {
                     </TableCell>
                     <TableCell className="font-medium">{item.title}</TableCell>
                     <TableCell>{item.description}</TableCell>
-                    <TableCell>₹{item.starting_bid}</TableCell>
+                    <TableCell>
+                      ₹{item.starting_bid.toLocaleString("en-IN")}
+                    </TableCell>
                     <TableCell>
                       {item.current_bid ? (
-                        item.current_bid
+                        item.current_bid.toLocaleString("en-IN")
                       ) : (
                         <span className="text-muted-foreground">
                           No bids yet

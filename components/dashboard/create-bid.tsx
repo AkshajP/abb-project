@@ -83,9 +83,12 @@ export default function CreateBid(props: {
               "Place bid"
             )}
           </Button>
-          <p className="text-sm text-muted-foreground">
-            Minimum bid: $
-            {Math.max(props.item.current_bid, props.item.starting_bid)}
+          <p className="text-sm text-yellow-700">
+            Minimum bid: ₹
+            {Math.max(
+              props.item.current_bid,
+              props.item.starting_bid
+            ).toLocaleString("en-IN")}
           </p>
         </form>
       </CardContent>
